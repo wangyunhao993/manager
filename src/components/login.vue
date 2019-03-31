@@ -5,12 +5,12 @@
       <h2>用户登陆</h2>
       <el-form 
       ref="loginForm"
-      label-position="top" :model="formLabelAlign" :rules="rules" label-width="80px">
+      label-position="top" :model="loginForm" :rules="rules" label-width="80px">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="formLabelAlign.username"></el-input>
+          <el-input v-model="loginForm.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="formLabelAlign.password"></el-input>
+          <el-input v-model="loginForm.password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="submitForm('loginForm')" type="primary">登陆</el-button>
@@ -26,19 +26,19 @@ export default {
   name: "login",
   data() {
     return {
-      formLabelAlign: {
-        username: "",
-        password: ""
+      loginForm: {
+        username: "admin",
+        password: "123456"
       },
       //2.表单验证 规则
       rules: {
         username: [
           { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { min: 3, max: 8, message: "长度在 3 到 8 个字符", trigger: "blur" }
         ],
         password: [
           { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { min: 3, max: 16, message: "长度在 3 到 16 个字符", trigger: "blur" }
         ]
       },
       // 3.重置
@@ -56,9 +56,34 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      // console.log(formName);
+      
+      this.$refs[formName].validate(async valid => {
+        // console.log(valid);
+        // console.log(this.loginForm);
+        
         if (valid) {
-          alert("submit!");
+          // alert("submit!");
+          //成功提交数据
+          
+          let res =await this.$axios.post('login',this.loginForm);
+          
+          console.log(res);
+          if(res.data.meta.status===400){
+            this.$message.error(res.data.meta.msg)
+          }else if(res.data.meta.status ===200) {
+            this.$message.success(res.data.meta.msg)
+            //缓存数据再 成功要跳转
+            console.log(res.data.data.token);
+            window.sessionStorage.setItem('token',res.data.data.token);
+            this.$router.push('/');
+
+          }else{
+            // 失败
+            this.$message.error('数据格式错误,请根据提示修改')
+            return false;
+          }
+          
         } else {
           console.log("error submit!!");
           return false;
@@ -68,7 +93,12 @@ export default {
     //   重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+
+    // 3.登陆请求
+    // submit(formName){
+      
+    // }
   }
 };
 </script>

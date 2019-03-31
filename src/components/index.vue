@@ -10,7 +10,7 @@
           <h2>屎上最屌的后台管理系统</h2>
         </el-col>
         <el-col :span="2">
-          <el-button type="success">退出</el-button>
+          <el-button @click="logout" type="success">退出</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -46,8 +46,23 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    // 1.退出
+    logout(){
+      // 删除ssessionStorage
+      window.sessionStorage.removeItem('token');
+      // 跳去登陆页
+      this.$router.push('/login');
     }
-  }
+  },
+  beforeCreate() {
+    if(window.sessionStorage.getItem('token')){
+
+    }else{
+      this.$message.error('还没登陆,请先登陆');
+      this.$router.push('/login');
+    }
+  },
 };
 </script>
 
