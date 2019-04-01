@@ -23,20 +23,20 @@
     <template>
       <el-table border :data="userList" style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column prop="username" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-        <el-table-column prop="mobile" label="电话"></el-table-column>
-        <el-table-column prop="mg_state" label="用户状态">
+        <el-table-column prop="username" label="角色名称" width="180"></el-table-column>
+        <el-table-column prop="email" label="角色描述" width="180"></el-table-column>
+        <!-- <el-table-column prop="mobile" label="电话"></el-table-column> -->
+        <!-- <el-table-column prop="mg_state" label="用户状态"> -->
           <!-- 用户状态的sw开关 -->
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <el-switch
               @change="stateChange(scope.row)"
               v-model="scope.row.mg_state"
               active-color="#13ce66"
               inactive-color="#ff4949"
             ></el-switch>
-          </template>
-        </el-table-column>
+          </template> -->
+        <!-- </el-table-column> -->
 
         <!-- 用户操作三个按钮 -->
         <el-table-column property="address" label="操作">
@@ -55,7 +55,7 @@
       </el-table>
     </template>
     <!-- 分页 -->
-    <el-pagination
+    <!-- <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       
@@ -64,7 +64,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
 
-    ></el-pagination>
+    ></el-pagination> -->
 
     <!-- 新增弹框 -->
     <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
@@ -136,7 +136,7 @@
 
 <script>
 export default {
-  name: "user",
+  name: "rights",
   data() {
     return {
       //0.总条数
@@ -179,13 +179,13 @@ export default {
 
       // 分页
       // 总条数
-      total:0,
+      // total:0,
       // 分页接口
-      sendData:{
-        query: "",
-        pagenum: 1,
-        pagesize: 10
-      }
+      // sendData:{
+      //   query: "",
+      //   pagenum: 1,
+      //   pagesize: 10
+      // }
     };
   },
   methods: {
@@ -247,39 +247,39 @@ export default {
       // console.log(this.roleList);
     },
     // 改变用户状态
-    async submitRole(editForm) {
-      // console.log('哈哈');
-      // console.log(this.editUser.role_name);
-      // console.log('哈哈');
-      let res = await this.$axios.put(`users/${this.editUser.id}/role`, {
-        rid: this.editUser.role_name
-      });
-      // 改完状态关闭窗口-刷新页面--状态码判断
+    // async submitRole(editForm) {
+    //   // console.log('哈哈');
+    //   // console.log(this.editUser.role_name);
+    //   // console.log('哈哈');
+    //   let res = await this.$axios.put(`users/${this.editUser.id}/role`, {
+    //     rid: this.editUser.role_name
+    //   });
+    //   // 改完状态关闭窗口-刷新页面--状态码判断
 
-      if (res.data.meta.status === 200) {
-        this.search();
-        console.log("刷新了");
-      }
-      this.tankuang = false;
-    },
+    //   if (res.data.meta.status === 200) {
+    //     this.search();
+    //     console.log("刷新了");
+    //   }
+    //   this.tankuang = false;
+    // },
     // 页码
     /*query: "",
         pagenum: 1,
         pagesize: 10 */ 
-     handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-        this.sendData.pagesize=val
-        this.search()
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-        this.sendData.pagenum=val;
-        this.search()
-      }
+    //  handleSizeChange(val) {
+    //     console.log(`每页 ${val} 条`);
+    //     this.sendData.pagesize=val
+    //     this.search()
+    //   },
+    //   handleCurrentChange(val) {
+    //     console.log(`当前页: ${val}`);
+    //     this.sendData.pagenum=val;
+    //     this.search()
+    //   }
   },
   // 初始加载
   created() {
-    this.search();
+    // this.search();
   }
 };
 </script>

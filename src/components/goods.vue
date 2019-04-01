@@ -23,10 +23,11 @@
     <template>
       <el-table border :data="userList" style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column prop="username" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-        <el-table-column prop="mobile" label="电话"></el-table-column>
-        <el-table-column prop="mg_state" label="用户状态">
+        <el-table-column prop="username" label="商品名称" width="180"></el-table-column>
+        <el-table-column prop="email" label="商品价格(元)" width="180"></el-table-column>
+        <el-table-column prop="mobile" label="商品重量"></el-table-column>
+        <el-table-column prop="mobile" label="创建时间"></el-table-column>
+        <!-- <el-table-column prop="mg_state" label="用户状态">
           <!-- 用户状态的sw开关 -->
           <template slot-scope="scope">
             <el-switch
@@ -36,7 +37,7 @@
               inactive-color="#ff4949"
             ></el-switch>
           </template>
-        </el-table-column>
+        <!-- </el-table-column> --> 
 
         <!-- 用户操作三个按钮 -->
         <el-table-column property="address" label="操作">
@@ -49,7 +50,7 @@
               circle
             ></el-button>
             <el-button @click="showRole(scope.row)" type="success" icon="el-icon-check" circle></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+            <!-- <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -136,7 +137,7 @@
 
 <script>
 export default {
-  name: "user",
+  name: "goods",
   data() {
     return {
       //0.总条数

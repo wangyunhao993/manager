@@ -18,13 +18,18 @@
       <!-- 左边 -->
       <el-aside class="my-aside" width="200px">
         <el-menu router default-active="2" class="el-menu-vertical-demo">
-          <el-submenu index="1">
+          <!-- idnex 是什么啊
+                打开列表 -->
+          <el-submenu :index="item.id+''" v-for="item in menuList">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>{{item.authName}}</span>
             </template>
-            <el-menu-item-group>
-              <el-menu-item index="users"><span class="el-icon-loading"></span>选项1</el-menu-item>
+
+            <el-menu-item-group v-for="it in item.children">
+
+              <el-menu-item :index="it.path"><span class="el-icon-loading"></span>{{it.authName}}</el-menu-item>
+              
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -40,6 +45,12 @@
 <script>
 export default {
   name: "index",
+  data() {
+    return {
+      //菜单列表
+      menuList:[]
+    }
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -62,6 +73,14 @@ export default {
       this.$message.error('还没登陆,请先登陆');
       this.$router.push('/login');
     }
+    
+  },
+  async created() {
+    let res= await this.$axios.get(`menus`);
+    console.log('获取列表数据成功');
+      this.menuList=res.data.data;
+      console.log(this.menuList);
+      
   },
 };
 </script>
