@@ -29,6 +29,7 @@
         <el-table-column prop="mg_state" label="用户状态">
           <!-- 用户状态的sw开关 -->
           <template slot-scope="scope">
+            
             <el-switch
               @change="stateChange(scope.row)"
               v-model="scope.row.mg_state"
@@ -49,7 +50,7 @@
               circle
             ></el-button>
             <el-button @click="showRole(scope.row)" type="success" icon="el-icon-check" circle></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+            <el-button @click="del(scope.row)" type="danger" icon="el-icon-delete" circle></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -58,12 +59,10 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      
       :page-sizes="[5, 10, 15, 18]"
       :page-size="sendData.pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
-
     ></el-pagination>
 
     <!-- 新增弹框 -->
@@ -89,25 +88,25 @@
       </div>
     </el-dialog>
     <!-- 编辑 -->
-    <el-dialog title="修改用户" :visible.sync="compile">
-      <el-form>
-        <el-form-item label="用户名">
-          <el-input autocomplete="off"></el-input>
+    <el-dialog title="修改用户" :rules="rules" :visible.sync="compile">
+      <el-form v-model="editUser">
+        <el-form-item prop="username" label="用户名">
+          <el-input disabled :value="editUser.username" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="邮箱">
-          <el-input autocomplete="off"></el-input>
+          <el-input v-model="editUser.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="电话">
-          <el-input autocomplete="off"></el-input>
+          <el-input v-model="editUser.mobile" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="compile = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="submitEdit">确 定</el-button>
       </div>
     </el-dialog>
 
-    <!-- 选择用户 -->
+    <!-- 修改用户 -->
     <!--:visible.sync="tankuang" --是开关 -->
     <el-dialog title="用户角色" :visible.sync="tankuang">
       <!-- 下拉菜单 -->
@@ -131,6 +130,9 @@
         <el-button @click="submitRole('editForm')" type="primary">确 定</el-button>
       </div>
     </el-dialog>
+    
+  </div>
+</template>
   </div>
 </template>
 
@@ -155,6 +157,8 @@ export default {
       tankuang: false,
       editUser: {},
 
+      xiugai:[],
+
       // 表单
       dialogFormVisible: false,
       //新增表单
@@ -165,6 +169,10 @@ export default {
         mobile: "88888888888"
       },
       // 规则
+      fulesForm:{
+        username:'',
+        password:''
+      },
       rules: {
         username: [
           { required: true, message: "用户名不能为空", trigger: "blur" }
@@ -176,6 +184,12 @@ export default {
       },
       // 编辑开关
       compile: false,
+      // 编辑表单
+      editForm: {
+        username: "小小冰",
+        email: "littleice@qq.com",
+        mobile: "18888888888"
+      },
 
       // 分页
       // 总条数
@@ -197,8 +211,12 @@ export default {
     },
     handleEdit(index, row) {
       console.log(index); // 这个在表格中的索引
-      console.log(row); // 整个表格的数据
+      // console.log(row); // 整个表格的数据
       this.compile = true;
+      this.editUser=row
+      console.log(this.editUser);
+      
+
     },
     // 2.加载表格数据--搜索用户
     async search() {
@@ -209,10 +227,12 @@ export default {
         //   Authorization: window.sessionStorage.getItem("token")
         // },
       });
-      console.log(this.sendData);
+      
 
       this.total = res.data.data.total;
       this.userList = res.data.data.users;
+      console.log(this.userList);
+      
     },
     // 3.新增用户请求
     submitAdd(addForm) {
@@ -245,6 +265,43 @@ export default {
       // console.log(res);
       this.roleList = res.data.data;
       // console.log(this.roleList);
+    },
+    // 4.1编辑用户
+    async submitEdit(haha){
+        console.log(this.editUser);
+       let res = await this.$axios.put(`users/${this.editUser.id}`,{
+         email:this.editUser.email,
+         mobile:this.editUser.mobile
+       });
+       if(res.data.meta.status===200){
+         this.compile=false;
+         this.search();
+       } 
+    },
+    // 5.删除
+    del(de){
+      console.log(de);  
+      
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          console.log('会执行');
+          let res = await this.$axios.delete(`users/${de.id}`)
+           if (res.data.meta.status === 200) {
+            this.search();
+          }
+          // this.$message({  
+          //   type: 'success',
+          //   message: '删除成功!'
+          // });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
     // 改变用户状态
     async submitRole(editForm) {

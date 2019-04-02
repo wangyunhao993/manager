@@ -28,16 +28,6 @@
         <el-table-column prop="mobile" label="商品重量"></el-table-column>
         <el-table-column prop="mobile" label="创建时间"></el-table-column>
         <!-- <el-table-column prop="mg_state" label="用户状态">
-          <!-- 用户状态的sw开关 -->
-          <template slot-scope="scope">
-            <el-switch
-              @change="stateChange(scope.row)"
-              v-model="scope.row.mg_state"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            ></el-switch>
-          </template>
-        <!-- </el-table-column> --> 
 
         <!-- 用户操作三个按钮 -->
         <el-table-column property="address" label="操作">
@@ -50,7 +40,6 @@
               circle
             ></el-button>
             <el-button @click="showRole(scope.row)" type="success" icon="el-icon-check" circle></el-button>
-            <!-- <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -68,7 +57,7 @@
     ></el-pagination>
 
     <!-- 新增弹框 -->
-    <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
+    <el-dialog title="添加商品" :visible.sync="dialogFormVisible">
       <el-form ref="addForm" :rules="rules" :model="addForm">
         <el-form-item label="用户名" label-width="100px" prop="username">
           <el-input v-model="addForm.username" autocomplete="off"></el-input>

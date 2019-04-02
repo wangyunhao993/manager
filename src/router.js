@@ -10,6 +10,8 @@ import index from "./components/index.vue";
 import users from "./components/user.vue";
 import roles from "./components/roles.vue"
 import rights from "./components/rights.vue"
+import goods from "./components/goods.vue"
+import reports from "./components/reports.vue"
 
 //3.规则
 let routes = [
@@ -33,6 +35,14 @@ let routes = [
       {
         path:'rights',
         component:rights
+      },
+      {
+        path:'goods',
+        component:goods
+      },
+      {
+        path:'reports',
+        component:reports
       }
     ]
     

@@ -77,9 +77,9 @@ export default {
   },
   async created() {
     let res= await this.$axios.get(`menus`);
-    console.log('获取列表数据成功');
+    // console.log('获取列表数据成功');
       this.menuList=res.data.data;
-      console.log(this.menuList);
+      // console.log(this.menuList);
       
   },
 };
