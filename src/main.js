@@ -25,7 +25,15 @@ import myaxios from './mysxios.js'
 Vue.use(myaxios)
 
 //5.设置统一时间格式--1.引进moen--2.filters过滤器
+import moment from "moment"
 
+Vue.filter('formatTime',function(value,formatTime){
+  if(formatTime){
+    return moment(value).format(formatTime)
+  }else{
+    return moment(value).format('YYYY-MM-DD hh:ss:mm')
+  }
+})
 
 
 

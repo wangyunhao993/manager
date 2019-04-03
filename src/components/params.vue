@@ -10,7 +10,7 @@
     </el-row>
     <!-- 3.表格 -->
     <template>
-      <el-table border :data="dataList" style="width: 100%">
+      <el-table border :data="aaa" style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column prop="roleName" label="角色名称" width="180"></el-table-column>
         <el-table-column prop="roleDesc" label="角色描述" width="180"></el-table-column>
@@ -126,9 +126,8 @@ export default {
       
       selectedOptions2: [],
       // 1用户数组
-      dataList: [
+      aaa: [
       ],
-      newData:{ },
 
 
       // 3.选择用户角色列表
@@ -177,18 +176,8 @@ export default {
       let res = await this.$axios.get(`roles`);
     // console.log(res);
     // console.log(this.aaa);
-    this.dataList=res.data.data;
-    // console.log(this.dataList);
-    this.dataList.forEach((v,index) => {
-        // console.log(v);
-       this.newData +=  v.children
-       
-       
-      //  v.shif();
-
-        
-    });
-    console.log(this.newData);
+    // this.aaa=res.data.data;
+    // console.log(this.aaa);
     
     
     },

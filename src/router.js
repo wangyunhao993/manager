@@ -14,6 +14,8 @@ import goods from "./components/goods.vue"
 import reports from "./components/reports.vue"
 import error from "./components/erorr.vue"
 import orders from "./components/orders.vue"
+import params from "./components/params.vue"
+import categories from "./components/categories.vue"
 
 //3.规则
 let routes = [
@@ -58,6 +60,14 @@ let routes = [
       {
         path:'orders',
         component:orders
+      },
+      {
+        path:'params',
+        component:params
+      },
+      {
+        path:'categories',
+        component:categories
       }
       
     ]
