@@ -7,9 +7,11 @@
   </div>
 </template>
 
+
 <script>
+
 export default {
-  name: "roles",
+  name: "reports",
   data() {
     return {
   }
@@ -21,8 +23,8 @@ methods:{
     
   },
   mounted(){
-    let myChart = echarts.init(document.getElementById('main'));
-   let  option = {
+    var myChart = echarts.init(document.getElementById('main'));
+   var  option = {
     title: {
         text: '堆叠区域图'
     },

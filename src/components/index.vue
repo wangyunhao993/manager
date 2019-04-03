@@ -67,12 +67,12 @@ export default {
     }
   },
   beforeCreate() {
-    if(window.sessionStorage.getItem('token')){
+    // if(window.sessionStorage.getItem('token')){
 
-    }else{
-      this.$message.error('还没登陆,请先登陆');
-      this.$router.push('/login');
-    }
+    // }else{
+    //   this.$message.error('还没登陆,请先登陆');
+    //   this.$router.push('/login');
+    // }
     
   },
   async created() {
