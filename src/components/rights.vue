@@ -7,12 +7,16 @@
     <template>
       <el-table border :data="userList" style="width: 100%">
         <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column prop="username" label="权限名称" width="180"></el-table-column>
-        <el-table-column prop="email" label="路径" width="180"></el-table-column>
+        <el-table-column prop="authName" label="权限名称" width="180"></el-table-column>
+        <el-table-column prop="path" label="路径" width="180"></el-table-column>
         <!-- <el-table-column prop="mobile" label="电话"></el-table-column> -->
         <!-- <el-table-column prop="mg_state" label="用户状态"> -->
-        <el-table-column property="address" label="层级">
-         
+        <el-table-column prop="level" label="层级">
+            <template slot-scope="scope">
+              <span v-if="scope.row.level==='0'">一级</span>
+              <span v-else-if="scope.row.level==='1'">二级</span>
+              <span v-else>三级</span>
+            </template>
         </el-table-column>
       </el-table>
     </template>
@@ -33,8 +37,12 @@ export default {
   },
   methods: {
   },
-  created() {
-    // this.search();
+ async created() {
+    let res = await this.$axios.get('rights/list')
+    console.log(res)
+    this.userList=res.data.data;
+    console.log(this.userList);
+    
   }
 };
 </script>
